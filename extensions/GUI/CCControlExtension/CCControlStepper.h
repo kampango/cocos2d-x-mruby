@@ -80,7 +80,7 @@ protected:
     void updateLayoutUsingTouchLocation(CCPoint location);
 
     /** Set the numeric value of the stepper. If send is true, the CCControlEventValueChanged is sent. */
-    void setValue(double value, bool send);
+    //void setValue(double value, bool send); //XXX: missing implementation!
 
     /** Start the autorepeat increment/decrement. */
     void startAutorepeat();

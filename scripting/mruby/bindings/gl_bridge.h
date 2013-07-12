@@ -1,0 +1,107 @@
+#ifndef __GL_BRIDGE_H__
+#define __GL_BRIDGE_H__
+
+#include "mruby.h"
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+void mrb_init_GL(mrb_state *mrb);
+
+#if defined(__cplusplus)
+}  /* extern "C" { */
+#endif
+
+//#define NO_USE_mrb_GL_glBufferData
+#define NO_USE_mrb_GL_glBufferSubData
+#define NO_USE_mrb_GL_glClientWaitSyncAPPLE
+#define NO_USE_mrb_GL_glCompressedTexImage2D
+#define NO_USE_mrb_GL_glCompressedTexSubImage2D
+#define NO_USE_mrb_GL_glCreateShaderProgramvEXT
+#define NO_USE_mrb_GL_glDeleteBuffers
+#define NO_USE_mrb_GL_glDeleteFramebuffers
+#define NO_USE_mrb_GL_glDeleteProgramPipelinesEXT
+#define NO_USE_mrb_GL_glDeleteQueriesEXT
+#define NO_USE_mrb_GL_glDeleteRenderbuffers
+#define NO_USE_mrb_GL_glDeleteSyncAPPLE
+#define NO_USE_mrb_GL_glDeleteTextures
+#define NO_USE_mrb_GL_glDeleteVertexArraysOES
+#define NO_USE_mrb_GL_glDiscardFramebufferEXT
+#define NO_USE_mrb_GL_glDrawElements
+#define NO_USE_mrb_GL_glFenceSyncAPPLE
+//#define NO_USE_mrb_GL_glGenBuffers
+#define NO_USE_mrb_GL_glGenFramebuffers
+#define NO_USE_mrb_GL_glGenProgramPipelinesEXT
+#define NO_USE_mrb_GL_glGenQueriesEXT
+#define NO_USE_mrb_GL_glGenRenderbuffers
+//#define NO_USE_mrb_GL_glGenTextures
+#define NO_USE_mrb_GL_glGenVertexArraysOES
+//#define NO_USE_mrb_GL_glGetActiveAttrib
+//#define NO_USE_mrb_GL_glGetActiveUniform
+//#define NO_USE_mrb_GL_glGetAttachedShaders
+#define NO_USE_mrb_GL_glGetBooleanv
+#define NO_USE_mrb_GL_glGetBufferParameteriv
+#define NO_USE_mrb_GL_glGetBufferPointervOES
+#define NO_USE_mrb_GL_glGetFloatv
+#define NO_USE_mrb_GL_glGetFramebufferAttachmentParameteriv
+#define NO_USE_mrb_GL_glGetInteger64vAPPLE
+//#define NO_USE_mrb_GL_glGetIntegerv
+#define NO_USE_mrb_GL_glGetObjectLabelEXT
+#define NO_USE_mrb_GL_glGetProgramInfoLog
+#define NO_USE_mrb_GL_glGetProgramPipelineInfoLogEXT
+#define NO_USE_mrb_GL_glGetProgramPipelineivEXT
+#define NO_USE_mrb_GL_glGetProgramiv
+#define NO_USE_mrb_GL_glGetQueryObjectuivEXT
+#define NO_USE_mrb_GL_glGetQueryivEXT
+#define NO_USE_mrb_GL_glGetRenderbufferParameteriv
+#define NO_USE_mrb_GL_glGetShaderInfoLog
+#define NO_USE_mrb_GL_glGetShaderPrecisionFormat
+#define NO_USE_mrb_GL_glGetShaderSource
+#define NO_USE_mrb_GL_glGetShaderiv
+#define NO_USE_mrb_GL_glGetSyncivAPPLE
+//#define NO_USE_mrb_GL_glGetTexParameterfv
+#define NO_USE_mrb_GL_glGetTexParameteriv
+//#define NO_USE_mrb_GL_glGetUniformfv
+#define NO_USE_mrb_GL_glGetUniformiv
+#define NO_USE_mrb_GL_glGetVertexAttribPointerv
+#define NO_USE_mrb_GL_glGetVertexAttribfv
+#define NO_USE_mrb_GL_glGetVertexAttribiv
+#define NO_USE_mrb_GL_glIsSyncAPPLE
+#define NO_USE_mrb_GL_glProgramUniform1fvEXT
+#define NO_USE_mrb_GL_glProgramUniform1ivEXT
+#define NO_USE_mrb_GL_glProgramUniform2fvEXT
+#define NO_USE_mrb_GL_glProgramUniform2ivEXT
+#define NO_USE_mrb_GL_glProgramUniform3fvEXT
+#define NO_USE_mrb_GL_glProgramUniform3ivEXT
+#define NO_USE_mrb_GL_glProgramUniform4fvEXT
+#define NO_USE_mrb_GL_glProgramUniform4ivEXT
+#define NO_USE_mrb_GL_glProgramUniformMatrix2fvEXT
+#define NO_USE_mrb_GL_glProgramUniformMatrix3fvEXT
+#define NO_USE_mrb_GL_glProgramUniformMatrix4fvEXT
+//#define NO_USE_mrb_GL_glReadPixels
+#define NO_USE_mrb_GL_glShaderBinary
+#define NO_USE_mrb_GL_glShaderSource
+//#define NO_USE_mrb_GL_glTexImage2D
+#define NO_USE_mrb_GL_glTexParameterfv
+#define NO_USE_mrb_GL_glTexParameteriv
+#define NO_USE_mrb_GL_glTexSubImage2D
+#define NO_USE_mrb_GL_glUniform1fv
+#define NO_USE_mrb_GL_glUniform1iv
+#define NO_USE_mrb_GL_glUniform2fv
+#define NO_USE_mrb_GL_glUniform2iv
+#define NO_USE_mrb_GL_glUniform3fv
+#define NO_USE_mrb_GL_glUniform3iv
+#define NO_USE_mrb_GL_glUniform4fv
+#define NO_USE_mrb_GL_glUniform4iv
+#define NO_USE_mrb_GL_glUniformMatrix2fv
+#define NO_USE_mrb_GL_glUniformMatrix3fv
+//#define NO_USE_mrb_GL_glUniformMatrix4fv
+#define NO_USE_mrb_GL_glVertexAttrib1fv
+#define NO_USE_mrb_GL_glVertexAttrib2fv
+#define NO_USE_mrb_GL_glVertexAttrib3fv
+#define NO_USE_mrb_GL_glVertexAttrib4fv
+//#define NO_USE_mrb_GL_glVertexAttribPointer
+#define NO_USE_mrb_GL_glWaitSyncAPPLE
+
+#endif /* __GL_BRIDGE_H__ */

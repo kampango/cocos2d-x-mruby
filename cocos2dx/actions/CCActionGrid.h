@@ -81,7 +81,8 @@ public:
 
 public:
     /** creates the action with size and duration */
-    static CCGrid3DAction* create(float duration, const CCSize& gridSize);
+    // XXX: missing impl.
+    //static CCGrid3DAction* create(float duration, const CCSize& gridSize);
 };
 
 /** @brief Base class for CCTiledGrid3D actions */
@@ -119,6 +120,8 @@ public:
     inline float getRate(void) { return m_fRate; }
     /** set amplitude rate */
     inline void setRate(float fRate) { m_fRate = fRate; }
+    
+    virtual void cleanup() { CCActionInterval::cleanup(); if (m_pOther) { m_pOther->cleanup(); } }
 
 public:
     /** creates the action with an inner action that has the amplitude property, and a duration time */
@@ -146,6 +149,8 @@ public:
     virtual void update(float time);
     virtual CCActionInterval* reverse(void);
 
+    virtual void cleanup() { CCActionInterval::cleanup(); if (m_pOther) { m_pOther->cleanup(); } }
+
 public:
     /** creates the action with an inner action that has the amplitude property, and a duration time */
     static CCAccelAmplitude* create(CCAction *pAction, float duration);
@@ -170,6 +175,8 @@ public:
     virtual void startWithTarget(CCNode *pTarget);
     virtual void update(float time);
     virtual CCActionInterval* reverse(void);
+
+    virtual void cleanup() { CCActionInterval::cleanup(); if (m_pOther) { m_pOther->cleanup(); } }
 
 public:
     /** creates the action with an inner action that has the amplitude property, and a duration time */

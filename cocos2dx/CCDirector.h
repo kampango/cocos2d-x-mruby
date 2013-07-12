@@ -96,8 +96,10 @@ and when to execute the Scenes.
 */
 class CC_DLL CCDirector : public CCObject, public TypeInfo
 {
-public:
+protected:
     CCDirector(void);
+
+public:
     virtual ~CCDirector(void);
     virtual bool init(void);
     virtual long getClassTypeInfo() {

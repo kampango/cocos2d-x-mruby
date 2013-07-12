@@ -1,0 +1,5 @@
+# resources get copied from TestCpp during build, ignore them
+Resources/*
+!Resources/start.rb
+!Resources/mruby_script
+!Resources/cocosbuilderRes

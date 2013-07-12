@@ -42,8 +42,9 @@ class CCSet;
 
 class CC_DLL CCEGLViewProtocol
 {
-public:
+protected:
     CCEGLViewProtocol();
+public:
     virtual ~CCEGLViewProtocol();
 
     /** Force destroying EGL view, subclass must implement this method. */

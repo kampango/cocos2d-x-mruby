@@ -80,6 +80,15 @@ CCTableView::CCTableView()
 
 CCTableView::~CCTableView()
 {
+    if (m_pDataSource) {
+        CCObject *ds = dynamic_cast<CCObject *>(m_pDataSource);
+        if (ds) { ds->release(); }
+    }
+    if (m_pTableViewDelegate) {
+        CCObject *deleg = dynamic_cast<CCObject *>(m_pTableViewDelegate);
+        if (deleg) { deleg->release(); }
+    }
+
     CC_SAFE_DELETE(m_pIndices);
     CC_SAFE_RELEASE(m_pCellsUsed);
     CC_SAFE_RELEASE(m_pCellsFreed);

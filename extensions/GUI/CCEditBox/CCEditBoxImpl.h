@@ -37,7 +37,9 @@ class CCEditBoxImpl
 {
 public:
     CCEditBoxImpl(CCEditBox* pEditBox) : m_pDelegate(NULL),m_pEditBox(pEditBox) {}
-    virtual ~CCEditBoxImpl() {}
+    virtual ~CCEditBoxImpl() {
+        setDelegate(NULL);
+    }
     
     virtual bool initWithSize(const CCSize& size) = 0;
     virtual void setFont(const char* pFontName, int fontSize) = 0;
@@ -67,7 +69,20 @@ public:
     virtual void onEnter(void) = 0;
     
     
-    void setDelegate(CCEditBoxDelegate* pDelegate) { m_pDelegate = pDelegate; };
+    void setDelegate(CCEditBoxDelegate* pDelegate) {
+        if (pDelegate)
+        {
+            CCObject *obj = dynamic_cast<CCObject*>(pDelegate);
+            if (obj) { obj->retain(); }
+        }
+        if (m_pDelegate)
+        {
+            CCObject *obj = dynamic_cast<CCObject*>(m_pDelegate);
+            if (obj) { obj->release(); }
+        }
+        m_pDelegate = pDelegate;
+    };
+
     CCEditBoxDelegate* getDelegate() { return m_pDelegate; };
     CCEditBox* getCCEditBox() { return m_pEditBox; };
 protected:

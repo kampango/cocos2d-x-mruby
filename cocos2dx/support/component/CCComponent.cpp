@@ -37,6 +37,12 @@ CCComponent::~CCComponent(void)
 {
 }
 
+bool CCComponent::initWithName(const char *name)
+{
+    m_strName = std::string(name);
+    return init();
+}
+
 bool CCComponent::init()
 {
     return true;
@@ -62,6 +68,20 @@ CCComponent* CCComponent::create(void)
 {
     CCComponent * pRet = new CCComponent();
     if (pRet != NULL && pRet->init())
+    {
+        pRet->autorelease();
+    }
+    else
+    {
+        CC_SAFE_DELETE(pRet);
+    }
+	return pRet;
+}
+
+CCComponent* CCComponent::createWithName(const char *name)
+{
+    CCComponent * pRet = new CCComponent();
+    if (pRet != NULL && pRet->initWithName(name))
     {
         pRet->autorelease();
     }

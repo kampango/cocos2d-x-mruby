@@ -248,8 +248,17 @@ public:
             m_pSelectorTarget = pSel; 
         }
     }
-    
+
     inline int getScriptHandler() { return m_nScriptHandler; };
+
+    void removeScriptHandler(void);
+
+    virtual void cleanup() {
+        removeScriptHandler();
+        setTargetCallback(NULL);
+        CCActionInstant::cleanup();
+    }
+
 protected:
     /** Target that will be called */
     CCObject*   m_pSelectorTarget;

@@ -56,6 +56,11 @@ public:
     virtual void update(float time);
     virtual CCActionInterval* reverse(void);
     virtual CCActionInterval* getInnerAction();
+    
+    virtual void cleanup() {
+        if (m_pInner) { m_pInner->cleanup(); }
+        CCActionInterval::cleanup();
+    }
 
 public:
 

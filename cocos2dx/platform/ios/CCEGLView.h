@@ -34,8 +34,10 @@ NS_CC_BEGIN
 
 class CC_DLL CCEGLView : public CCEGLViewProtocol
 {
-public:
+protected:
     CCEGLView();
+
+public:
    ~CCEGLView();
 
     virtual bool    isOpenGLReady();

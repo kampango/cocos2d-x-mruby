@@ -45,6 +45,30 @@ public:
    virtual void setEnabled(bool b);
     
    static CCComController* create(void);
+
+public:
+    void registerScriptHandler(int nHandler);
+    void unregisterScriptHandler(void);
+    void registerScriptTouchHandler(int nHandler, bool bIsMultiTouches, int nPriority, bool bSwallowsTouches);
+    void unregisterScriptTouchHandler(void);
+
+public:
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
+
+    virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
+    virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
+    virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
+    virtual void ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent);
+
+public:
+    virtual bool isTouchEnabled();
+    virtual void setTouchEnabled(bool value);
+
+private:
+    CCLayer *m_pInputDelegate;
 };
 
 NS_CC_EXT_END

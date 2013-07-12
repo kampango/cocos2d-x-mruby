@@ -90,6 +90,8 @@ public:
  */
 class CCTableViewDataSource
 {
+protected:
+    CCTableViewDataSource() {}
 public:
     virtual ~CCTableViewDataSource() {}
 
@@ -162,12 +164,24 @@ public:
      * data source
      */
     CCTableViewDataSource* getDataSource() { return m_pDataSource; }
-    void setDataSource(CCTableViewDataSource* source) { m_pDataSource = source; }
+    void setDataSource(CCTableViewDataSource* source) {
+        CCObject *n_ds = dynamic_cast<CCObject *>(source);
+        if (n_ds) { n_ds->retain(); }
+        CCObject *ds = dynamic_cast<CCObject *>(m_pDataSource);
+        if (ds) { ds->release(); }
+        m_pDataSource = source;
+    }
     /**
      * delegate
      */
     CCTableViewDelegate* getDelegate() { return m_pTableViewDelegate; }
-    void setDelegate(CCTableViewDelegate* pDelegate) { m_pTableViewDelegate = pDelegate; }
+    void setDelegate(CCTableViewDelegate* pDelegate) {
+        CCObject *n_deleg = dynamic_cast<CCObject *>(pDelegate);
+        if (n_deleg) { n_deleg->retain(); }
+        CCObject *deleg = dynamic_cast<CCObject *>(m_pTableViewDelegate);
+        if (deleg) { deleg->release(); }
+        m_pTableViewDelegate = pDelegate;
+    }
 
     /**
      * determines how cell is ordered and filled in the view.

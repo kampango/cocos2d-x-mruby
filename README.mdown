@@ -1,3 +1,10 @@
+Only for iOS
+============
+
+`$ git checkout devel/mruby-support`
+
+`$ open samples/MRuby/TestMRuby/proj.ios/TestMRuby.xcodeproj`
+
 cocos2d-x
 =========
 

@@ -53,6 +53,7 @@ class CC_DLL CCTimer : public CCObject
 {
 public:
     CCTimer(void);
+    virtual ~CCTimer(void);
     
     /** get interval in seconds */
     float getInterval(void) const;

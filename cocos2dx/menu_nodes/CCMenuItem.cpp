@@ -55,19 +55,18 @@ CCMenuItem* CCMenuItem::create()
     return CCMenuItem::create(NULL, NULL);
 }
 
-CCMenuItem* CCMenuItem::create(CCObject *rec, SEL_MenuHandler selector)
+CCMenuItem* CCMenuItem::create(CCObject *pSelectorTarget, SEL_MenuHandler selector)
 {
     CCMenuItem *pRet = new CCMenuItem();
-    pRet->initWithTarget(rec, selector);
+    pRet->initWithTarget(pSelectorTarget, selector);
     pRet->autorelease();
     return pRet;
 }
 
-bool CCMenuItem::initWithTarget(CCObject *rec, SEL_MenuHandler selector)
+bool CCMenuItem::initWithTarget(CCObject *pSelectorTarget, SEL_MenuHandler selector)
 {
     setAnchorPoint(ccp(0.5f, 0.5f));
-    m_pListener = rec;
-    m_pfnSelector = selector;
+    setTarget(pSelectorTarget, selector);
     m_bEnabled = true;
     m_bSelected = false;
     return true;
@@ -76,6 +75,7 @@ bool CCMenuItem::initWithTarget(CCObject *rec, SEL_MenuHandler selector)
 CCMenuItem::~CCMenuItem()
 {
     unregisterScriptTapHandler();
+    setTarget(NULL, NULL);
 }
 
 void CCMenuItem::selected()
@@ -143,9 +143,11 @@ bool CCMenuItem::isSelected()
     return m_bSelected;
 }
 
-void CCMenuItem::setTarget(CCObject *rec, SEL_MenuHandler selector)
+void CCMenuItem::setTarget(CCObject *pSelectorTarget, SEL_MenuHandler selector)
 {
-    m_pListener = rec;
+    CC_SAFE_RETAIN(pSelectorTarget);
+    CC_SAFE_RELEASE(m_pListener);
+    m_pListener = pSelectorTarget;
     m_pfnSelector = selector;
 }
 

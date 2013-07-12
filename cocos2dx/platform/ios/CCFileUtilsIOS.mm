@@ -295,6 +295,18 @@ std::string CCFileUtilsIOS::getFullPathForDirectoryAndFilename(const std::string
     return "";
 }
 
+
+CCFileUtilsIOS::CCFileUtilsIOS()
+{
+    NSString *resPath = [[NSBundle mainBundle] resourcePath];
+    std::string path = [resPath UTF8String];
+    if (path.length() > 0 && path[path.length()-1] != '/')
+    {
+        path += "/";
+    }
+    m_strDefaultResRootPath = path;
+}
+
 bool CCFileUtilsIOS::isAbsolutePath(const std::string& strPath)
 {
     NSString* path = [NSString stringWithUTF8String:strPath.c_str()];

@@ -40,6 +40,15 @@ struct Attachment {
 	AttachmentType type;
 
 	const void* const vtable;
+#ifdef __cplusplus
+	Attachment () : name(0), vtable(0) {}
+    struct Attachment& operator= (struct Attachment& other) {
+        *(const_cast<const char **>(&name)) = other.name;
+        type = other.type;
+        *(const_cast<const void **>(&vtable)) = other.vtable;
+        return *this;
+    }
+#endif
 };
 
 void Attachment_dispose (Attachment* self);

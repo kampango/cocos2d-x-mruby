@@ -39,6 +39,12 @@ struct AttachmentLoader {
 	const void* const vtable;
 #ifdef __cplusplus
 	AttachmentLoader () : error1(0), error2(0), vtable(0) {}
+    struct AttachmentLoader& operator= (struct AttachmentLoader& other) {
+        error1 = other.error1;
+        error2 = other.error2;
+        *(const_cast<const void **>(&vtable)) = other.vtable;
+        return *this;
+    }
 #endif
 };
 

@@ -42,6 +42,8 @@ NS_CC_BEGIN
 class CC_DLL CCFileUtilsIOS : public CCFileUtils
 {
 public:
+    CCFileUtilsIOS();
+
     /* override funtions */
     virtual std::string getWritablePath();
     virtual bool isFileExist(const std::string& strFilePath);

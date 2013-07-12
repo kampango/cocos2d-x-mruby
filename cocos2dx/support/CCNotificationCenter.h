@@ -130,6 +130,9 @@ public:
     
     /** Invokes the callback function of this observer */
     void performSelector(CCObject *obj);
+    
+    void removeHandler(void);
+
 private:
     CC_PROPERTY_READONLY(CCObject *, m_target, Target);
     CC_PROPERTY_READONLY(SEL_CallFuncO, m_selector, Selector);

@@ -48,6 +48,7 @@ CCEditBox::~CCEditBox(void)
 {
     CC_SAFE_DELETE(m_pEditBoxImpl);
     unregisterScriptEditBoxHandler();
+    setDelegate(NULL);
 }
 
 
@@ -100,6 +101,16 @@ bool CCEditBox::initWithSizeAndBackgroundSprite(const CCSize& size, CCScale9Spri
 
 void CCEditBox::setDelegate(CCEditBoxDelegate* pDelegate)
 {
+    if (pDelegate)
+    {
+        CCObject *obj = dynamic_cast<CCObject*>(pDelegate);
+        if (obj) { obj->retain(); }
+    }
+    if (m_pDelegate)
+    {
+        CCObject *obj = dynamic_cast<CCObject*>(m_pDelegate);
+        if (obj) { obj->release(); }
+    }
     m_pDelegate = pDelegate;
     if (m_pEditBoxImpl != NULL)
     {

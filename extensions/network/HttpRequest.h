@@ -170,14 +170,31 @@ public:
 
     inline void setResponseCallback(CCObject* pTarget, SEL_HttpResponse pSelector)
     {
-        _pTarget = pTarget;
+        if (_pTarget != pTarget) {
+            if (_pTarget)
+            {
+                _pTarget->release();
+            }
+
+            _pTarget = pTarget;
+            if (_pTarget)
+            {
+                _pTarget->retain();
+            }
+        }
         _pSelector = pSelector;
-        
+    }
+
+    inline void removeResponseCallback()
+    {
         if (_pTarget)
         {
-            _pTarget->retain();
+            _pTarget->release();
+            _pTarget = NULL;
         }
-    }    
+        _pSelector = NULL;
+    }
+
     /** Get the target of callback selector funtion, mainly used by CCHttpClient */
     inline CCObject* getTarget()
     {
@@ -189,10 +206,12 @@ public:
     class _prxy
     {
     public:
+        _prxy() :_cb(0) {}
         _prxy( SEL_HttpResponse cb ) :_cb(cb) {}
         ~_prxy(){};
         operator SEL_HttpResponse() const { return _cb; }
         CC_DEPRECATED_ATTRIBUTE operator SEL_CallFuncND()   const { return (SEL_CallFuncND) _cb; }
+        _prxy& operator=(const _prxy& other) { this->_cb = other._cb; return *this; }
     protected:
         SEL_HttpResponse _cb;
     };

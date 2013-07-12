@@ -111,6 +111,7 @@ static void* networkThread(void *data)
         if (0 != s_requestQueue->count())
         {
             request = dynamic_cast<CCHttpRequest*>(s_requestQueue->objectAtIndex(0));
+            request->retain();
             s_requestQueue->removeObjectAtIndex(0);  
             // request's refcount = 1 here
         }
@@ -130,6 +131,7 @@ static void* networkThread(void *data)
         
         // request's refcount = 2 here, it's retained by HttpRespose constructor
         request->release();
+
         // ok, refcount = 1 now, only HttpResponse hold it.
         
         int32_t responseCode = -1;
@@ -197,6 +199,8 @@ static void* networkThread(void *data)
         pthread_mutex_lock(&s_responseQueueMutex);
         s_responseQueue->addObject(response);
         pthread_mutex_unlock(&s_responseQueueMutex);
+
+        response->release();
         
         // resume dispatcher selector
         CCDirector::sharedDirector()->getScheduler()->resumeTarget(CCHttpClient::getInstance());
@@ -453,12 +457,14 @@ void CCHttpClient::send(CCHttpRequest* request)
     }
         
     ++s_asyncRequestCount;
-    
+
     request->retain();
         
     pthread_mutex_lock(&s_requestQueueMutex);
     s_requestQueue->addObject(request);
     pthread_mutex_unlock(&s_requestQueueMutex);
+
+    request->release();
     
     // Notify thread start to work
     pthread_cond_signal(&s_SleepCondition);
@@ -475,6 +481,7 @@ void CCHttpClient::dispatchResponseCallbacks(float delta)
     if (s_responseQueue->count())
     {
         response = dynamic_cast<CCHttpResponse*>(s_responseQueue->objectAtIndex(0));
+        response->retain();
         s_responseQueue->removeObjectAtIndex(0);
     }
     pthread_mutex_unlock(&s_responseQueueMutex);

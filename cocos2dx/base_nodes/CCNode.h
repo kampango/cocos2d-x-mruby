@@ -1069,7 +1069,7 @@ public:
      * @param selector      A function selector
      * @return Whether the funcion selector is scheduled.
      */
-    bool isScheduled(SEL_SCHEDULE selector);
+    //bool isScheduled(SEL_SCHEDULE selector); // implementation not found.
 
     /** 
      * Schedules the "update" method. 

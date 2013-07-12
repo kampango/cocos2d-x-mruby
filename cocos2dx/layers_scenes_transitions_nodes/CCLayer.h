@@ -378,6 +378,8 @@ public:
     The current (old) layer will be removed from it's parent with 'cleanup:YES'.
     */
     void switchToAndReleaseMe(unsigned int n);
+
+    void cleanup(void);
 };
 
 

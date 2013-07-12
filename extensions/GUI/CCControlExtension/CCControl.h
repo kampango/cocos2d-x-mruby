@@ -176,6 +176,8 @@ public:
     */
     virtual void removeTargetWithActionForControlEvents(CCObject* target, SEL_CCControlHandler action, CCControlEvent controlEvents);
 
+    virtual void removeTargetForAllControlEvents(void);
+
     /**
     * Returns a point corresponding to the touh location converted into the 
     * control space coordinates.
@@ -257,6 +259,8 @@ protected:
 public:
     void addHandleOfControlEvent(int nFunID,CCControlEvent controlEvent);
     void removeHandleOfControlEvent(CCControlEvent controlEvent);
+    void removeHandleOfAllControlEvents();
+
 private:
     int  getHandleOfControlEvent(CCControlEvent controlEvent);
 private:

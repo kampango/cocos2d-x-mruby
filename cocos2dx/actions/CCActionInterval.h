@@ -107,6 +107,12 @@ public:
     virtual void update(float t);
     virtual CCActionInterval* reverse(void);
 
+    virtual void cleanup() {
+        CCActionInterval::cleanup();
+        if(m_pActions[0]) { m_pActions[0]->cleanup(); }
+        if(m_pActions[1]) { m_pActions[1]->cleanup(); }
+    }
+
 public:
 
     /** helper constructor to create an array of sequenceable actions */
@@ -157,6 +163,11 @@ public:
         return m_pInnerAction;
     }
 
+    virtual void cleanup() {
+        CCActionInterval::cleanup();
+        if (m_pInnerAction) { m_pInnerAction->cleanup(); }
+    }
+
 public:
 
     /** creates a CCRepeat action. Times is an unsigned integer between 1 and pow(2,30) */
@@ -205,6 +216,11 @@ public:
         return m_pInnerAction;
     }
 
+    virtual void cleanup() {
+        CCActionInterval::cleanup();
+        if (m_pInnerAction) { m_pInnerAction->cleanup(); }
+    }
+
 public:
 
     /** creates the action */
@@ -230,6 +246,12 @@ public:
     virtual void update(float time);
     virtual CCActionInterval* reverse(void);
 
+    virtual void cleanup() {
+        CCActionInterval::cleanup();
+        if (m_pOne) { m_pOne->cleanup(); }
+        if (m_pTwo) { m_pTwo->cleanup(); }
+    }
+    
 public:
 
     /** helper constructor to create an array of spawned actions */
@@ -698,6 +720,11 @@ public:
     virtual void update(float time);
     virtual CCActionInterval* reverse(void);
 
+    virtual void cleanup() {
+        CCActionInterval::cleanup();
+        if (m_pOther) { m_pOther->cleanup(); }
+    }
+
 public:
     /** creates the action */
     static CCReverseTime* create(CCFiniteTimeAction *pAction);
@@ -753,6 +780,11 @@ public:
     virtual void startWithTarget(CCNode *pTarget);
     virtual void stop(void);
     virtual void update(float time);
+    
+    virtual void cleanup() {
+        CCActionInterval::cleanup();
+        if (m_pAction) { m_pAction->cleanup(); }
+    }
 
     /** This is the target that the action will be forced to run with */
     CC_SYNTHESIZE_RETAIN(CCNode*, m_pForcedTarget, ForcedTarget);

@@ -26,6 +26,8 @@ NS_CC_EXT_BEGIN
     }
 
 class CCBMemberVariableAssigner {
+    protected:
+        CCBMemberVariableAssigner() {};
     public:
         virtual ~CCBMemberVariableAssigner() {};
 

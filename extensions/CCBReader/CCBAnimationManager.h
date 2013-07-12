@@ -111,6 +111,7 @@ public:
     void debug();
     
     void setCallFunc(CCCallFunc *callFunc, const std::string &callbackNamed);
+    void removeCallFunc(const std::string &callbackNamed);
 
     CCObject* actionForCallbackChannel(CCBSequenceProperty* channel);
     CCObject* actionForSoundChannel(CCBSequenceProperty* channel);

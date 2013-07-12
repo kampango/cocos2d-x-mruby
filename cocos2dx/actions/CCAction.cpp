@@ -203,6 +203,14 @@ void CCSpeed::setInnerAction(CCActionInterval *pAction)
     }
 }
 
+void CCSpeed::cleanup()
+{
+    CCAction::cleanup();
+    if (m_pInnerAction) {
+        m_pInnerAction->cleanup();
+    }
+}
+
 //
 // Follow
 //

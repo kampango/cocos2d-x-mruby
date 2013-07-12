@@ -64,7 +64,9 @@ CCObject::~CCObject(void)
     else
     {
         CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
-        if (pEngine != NULL && pEngine->getScriptType() == kScriptTypeJavascript)
+        if (pEngine != NULL
+            && (pEngine->getScriptType() == kScriptTypeJavascript
+                || pEngine->getScriptType() == kScriptTypeMRuby))
         {
             pEngine->removeScriptObjectByCCObject(this);
         }
@@ -108,6 +110,11 @@ bool CCObject::isSingleReference(void) const
 unsigned int CCObject::retainCount(void) const
 {
     return m_uReference;
+}
+
+unsigned int CCObject::autoReleaseCount(void) const
+{
+    return m_uAutoReleaseCount;
 }
 
 bool CCObject::isEqual(const CCObject *pObject)

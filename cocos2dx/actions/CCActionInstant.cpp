@@ -405,26 +405,15 @@ CCCallFunc * CCCallFunc::create(int nHandler)
 }
 
 bool CCCallFunc::initWithTarget(CCObject* pSelectorTarget) {
-    if (pSelectorTarget) 
-    {
-        pSelectorTarget->retain();
-    }
-
-    if (m_pSelectorTarget) 
-    {
-        m_pSelectorTarget->release();
-    }
-
+    CC_SAFE_RETAIN(pSelectorTarget);
+    CC_SAFE_RELEASE(m_pSelectorTarget);
     m_pSelectorTarget = pSelectorTarget;
     return true;
 }
 
 CCCallFunc::~CCCallFunc(void)
 {
-    if (m_nScriptHandler)
-    {
-        cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptHandler(m_nScriptHandler);
-    }
+    removeScriptHandler();
     CC_SAFE_RELEASE(m_pSelectorTarget);
 }
 
@@ -456,12 +445,21 @@ void CCCallFunc::update(float time) {
 }
 
 void CCCallFunc::execute() {
-    if (m_pCallFunc) {
+    if (m_pSelectorTarget && m_pCallFunc) {
         (m_pSelectorTarget->*m_pCallFunc)();
     }
 	if (m_nScriptHandler) {
 		CCScriptEngineManager::sharedManager()->getScriptEngine()->executeCallFuncActionEvent(this);
 	}
+}
+
+void CCCallFunc::removeScriptHandler(void)
+{
+    if (m_nScriptHandler)
+    {
+        cocos2d::CCScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptHandler(m_nScriptHandler);
+        m_nScriptHandler = 0;
+    }
 }
 
 //

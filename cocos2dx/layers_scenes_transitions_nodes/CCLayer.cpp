@@ -314,7 +314,7 @@ void CCLayer::unregisterScriptKeypadHandler(void)
 
 void CCLayer::keyBackClicked(void)
 {
-    if (m_pScriptKeypadHandlerEntry || m_eScriptType == kScriptTypeJavascript)
+    if (m_pScriptKeypadHandlerEntry || m_eScriptType == kScriptTypeJavascript || m_eScriptType == kScriptTypeMRuby)
     {
         CCScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerKeypadEvent(this, kTypeBackClicked);
     }
@@ -1105,7 +1105,7 @@ void CCLayerMultiplex::switchTo(unsigned int n)
 {
     CCAssert( n < m_pLayers->count(), "Invalid index in MultiplexLayer switchTo message" );
 
-    this->removeChild((CCNode*)m_pLayers->objectAtIndex(m_nEnabledLayer), true);
+    this->removeChild((CCNode*)m_pLayers->objectAtIndex(m_nEnabledLayer), false);
 
     m_nEnabledLayer = n;
 
@@ -1124,6 +1124,18 @@ void CCLayerMultiplex::switchToAndReleaseMe(unsigned int n)
     m_nEnabledLayer = n;
 
     this->addChild((CCNode*)m_pLayers->objectAtIndex(n));
+}
+
+void CCLayerMultiplex::cleanup()
+{
+    CCLayer::cleanup();
+
+    CCObject* pObj = NULL;
+    CCARRAY_FOREACH(m_pLayers, pObj)
+    {
+        CCLayer *pLayer = (CCLayer*)pObj;
+        pLayer->cleanup();
+    }
 }
 
 NS_CC_END

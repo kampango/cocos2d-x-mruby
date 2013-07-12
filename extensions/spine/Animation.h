@@ -49,6 +49,13 @@ void Animation_mix (const Animation* self, struct Skeleton* skeleton, float time
 
 struct Timeline {
 	const void* const vtable;
+#ifdef __cplusplus
+	Timeline () : vtable(0) {}
+    struct Timeline& operator= (struct Timeline& other) {
+        *(const_cast<const void **>(&vtable)) = other.vtable;
+        return *this;
+    }
+#endif
 };
 
 void Timeline_dispose (Timeline* self);
@@ -77,6 +84,16 @@ typedef struct BaseTimeline {
 	int const framesLength;
 	float* const frames; /* time, angle, ... for rotate. time, x, y, ... for translate and scale. */
 	int boneIndex;
+#ifdef __cplusplus
+	BaseTimeline () : framesLength(0), frames(0), boneIndex(0) {}
+    struct BaseTimeline& operator= (struct BaseTimeline& other) {
+        super = other.super;
+        *(const_cast<int *>(&framesLength)) = other.framesLength;
+        *(const_cast<float **>(&frames)) = other.frames;
+        boneIndex = other.boneIndex;
+        return *this;
+    }
+#endif
 } RotateTimeline;
 
 RotateTimeline* RotateTimeline_create (int frameCount);
@@ -101,11 +118,21 @@ void ScaleTimeline_setFrame (ScaleTimeline* self, int frameIndex, float time, fl
 
 /**/
 
-typedef struct {
+typedef struct _ColorTimeline {
 	CurveTimeline super;
 	int const framesLength;
 	float* const frames; /* time, r, g, b, a, ... */
 	int slotIndex;
+#ifdef __cplusplus
+	_ColorTimeline () : framesLength(0), frames(0), slotIndex(0) {}
+    struct _ColorTimeline& operator= (struct _ColorTimeline& other) {
+        super = other.super;
+        *(const_cast<int *>(&framesLength)) = other.framesLength;
+        *(const_cast<float **>(&frames)) = other.frames;
+        slotIndex = other.slotIndex;
+        return *this;
+    }
+#endif
 } ColorTimeline;
 
 ColorTimeline* ColorTimeline_create (int frameCount);
@@ -114,12 +141,23 @@ void ColorTimeline_setFrame (ColorTimeline* self, int frameIndex, float time, fl
 
 /**/
 
-typedef struct {
+typedef struct _AttachmentTimeline {
 	Timeline super;
 	int const framesLength;
 	float* const frames; /* time, ... */
 	int slotIndex;
 	const char** const attachmentNames;
+#ifdef __cplusplus
+	_AttachmentTimeline () : framesLength(0), frames(0), slotIndex(0), attachmentNames(0) {}
+    struct _AttachmentTimeline& operator= (struct _AttachmentTimeline& other) {
+        super = other.super;
+        *(const_cast<int *>(&framesLength)) = other.framesLength;
+        *(const_cast<float **>(&frames)) = other.frames;
+        slotIndex = other.slotIndex;
+        *(const_cast<const char ***>(&attachmentNames)) = other.attachmentNames;
+        return *this;
+    }
+#endif
 } AttachmentTimeline;
 
 AttachmentTimeline* AttachmentTimeline_create (int frameCount);

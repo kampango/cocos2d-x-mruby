@@ -25,6 +25,7 @@ THE SOFTWARE.
 #ifndef __CC_APPLICATION_IOS_H__
 #define __CC_APPLICATION_IOS_H__
 
+#include "cocoa/CCObject.h"
 #include "platform/CCCommon.h"
 #include "platform/CCApplicationProtocol.h"
 
@@ -32,10 +33,12 @@ NS_CC_BEGIN
 
 class CCRect;
 
-class CC_DLL CCApplication : public CCApplicationProtocol
+class CC_DLL CCApplication : public CCObject, public CCApplicationProtocol
 {
-public:
+protected:
     CCApplication();
+
+public:
     virtual ~CCApplication();
         
     /**

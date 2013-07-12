@@ -67,7 +67,7 @@ public:
 
     void removeDisplay(int index);
 
-    CCArray *getDecorativeDisplayList();
+    //CCArray *getDecorativeDisplayList(); //XXX:missing implement.
 
     /**
      * Change display by index. You can just use this method to change display in the display list.

@@ -96,6 +96,7 @@ public:
     inline int getTag(void) { return m_nTag; }
     inline void setTag(int nTag) { m_nTag = nTag; }
 
+    virtual void cleanup(void) {};
 public:
     /** Create an action */
     static CCAction* create();
@@ -178,6 +179,7 @@ public:
         return m_pInnerAction;
     }
 
+    virtual void cleanup();
 public:
     /** create the action */
     static CCSpeed* create(CCActionInterval* pAction, float fSpeed);

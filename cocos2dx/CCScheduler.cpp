@@ -84,6 +84,11 @@ CCTimer::CCTimer()
 {
 }
 
+CCTimer::~CCTimer()
+{
+    CC_SAFE_RELEASE(m_pTarget);
+}
+
 CCTimer* CCTimer::timerWithTarget(CCObject *pTarget, SEL_SCHEDULE pfnSelector)
 {
     CCTimer *pTimer = new CCTimer();
@@ -130,6 +135,7 @@ bool CCTimer::initWithTarget(CCObject *pTarget, SEL_SCHEDULE pfnSelector)
 
 bool CCTimer::initWithTarget(CCObject *pTarget, SEL_SCHEDULE pfnSelector, float fSeconds, unsigned int nRepeat, float fDelay)
 {
+    CC_SAFE_RETAIN(pTarget);
     m_pTarget = pTarget;
     m_pfnSelector = pfnSelector;
     m_fElapsed = -1;

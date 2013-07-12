@@ -30,6 +30,7 @@
 #include "touch_dispatcher/CCTouch.h"
 #include "cocoa/CCSet.h"
 #include "CCAccelerometer.h"
+#include "actions/CCActionManager.h"
 #include <map>
 #include <string>
 #include <list>
@@ -48,7 +49,8 @@ class CCAcceleration;
 enum ccScriptType {
     kScriptTypeNone = 0,
     kScriptTypeLua,
-    kScriptTypeJavascript
+    kScriptTypeJavascript,
+    kScriptTypeMRuby
 };
 
 class CCScriptHandlerEntry : public CCObject
@@ -174,6 +176,9 @@ public:
     /** Remove script function handler, only CCLuaEngine class need to implement this function. */
     virtual void removeScriptHandler(int nHandler) {};
     
+    /** **/
+    virtual void willRemoveAction(CCActionManager* pActionManager, CCAction* pAction, CCObject* pTarget) {};
+
     /** Reallocate script function handler, only CCLuaEngine class need to implement this function. */
     virtual int reallocateScriptHandler(int nHandler) { return -1;}
     

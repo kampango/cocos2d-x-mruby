@@ -545,11 +545,14 @@ CCTexture2D* CCTextureCache::addUIImage(CCImage *image, const char *key)
         // prevents overloading the autorelease pool
         texture = new CCTexture2D();
         texture->initWithImage(image);
+        if (texture)
+        {
+            texture->autorelease();
+        }
 
         if(key && texture)
         {
             m_pTextures->setObject(texture, forKey.c_str());
-            texture->autorelease();
         }
         else
         {

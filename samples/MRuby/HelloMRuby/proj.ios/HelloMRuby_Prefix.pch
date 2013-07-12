@@ -1,0 +1,11 @@
+//
+// Prefix header for all source files of the 'HelloMRuby' target in the 'HelloMRuby' project
+//
+
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+	#import <UIKit/UIKit.h>
+#endif
+
+#define MRUBY_NO_KAZMATH_BRIDGE
+#define MRUBY_NO_EXTENSION_BRIDGE

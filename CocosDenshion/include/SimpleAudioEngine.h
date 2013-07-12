@@ -37,6 +37,7 @@ namespace CocosDenshion {
 class TypeInfo
 {
 public:
+    virtual ~TypeInfo(){}
     virtual long getClassTypeInfo() = 0;
 };
 

@@ -30,11 +30,21 @@
 
 namespace cocos2d { namespace extension {
 
-typedef struct {
+typedef struct _AnimationState {
 	AnimationStateData* const data;
 	Animation* const animation;
 	float time;
 	int/*bool*/loop;
+#ifdef __cplusplus
+    _AnimationState () : data(0), animation(0), time(0.0f), loop(0) {}
+    struct _AnimationState& operator= (struct _AnimationState& other) {
+        *(const_cast<AnimationStateData **>(&data)) = other.data;
+        *(const_cast<Animation **>(&animation)) = other.animation;
+        time = other.time;
+        loop = other.loop;
+        return *this;
+    }
+#endif
 } AnimationState;
 
 /* @param data May be 0 for no mixing. */

@@ -228,6 +228,11 @@ void CCControl::removeTargetWithActionForControlEvent(CCObject* target, SEL_CCCo
     }
 }
 
+void CCControl::removeTargetForAllControlEvents()
+{
+    removeTargetWithActionForControlEvents(NULL, NULL, (0x1 << kControlEventTotalNumber) - 1);
+}
+
 
 //CRGBA protocol
 void CCControl::setOpacityModifyRGB(bool bOpacityModifyRGB)
@@ -341,13 +346,40 @@ void CCControl::addHandleOfControlEvent(int nFunID,CCControlEvent controlEvent)
     m_mapHandleOfControlEvent[controlEvent] = nFunID;
 }
 
+void CCControl::removeHandleOfAllControlEvents()
+{
+    CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
+
+    for (std::map<int,int>::iterator Iter = m_mapHandleOfControlEvent.begin();
+         Iter != m_mapHandleOfControlEvent.end();
+         ++Iter) {
+        int nFunID = Iter->second;
+        if (pEngine != NULL && pEngine->getScriptType() != kScriptTypeNone)
+        {
+            pEngine->removeScriptHandler(nFunID);
+            CCLOG("Remove CCControl event handler: %d", nFunID);
+        }
+    }
+}
+
 void CCControl::removeHandleOfControlEvent(CCControlEvent controlEvent)
 {
     std::map<int,int>::iterator Iter = m_mapHandleOfControlEvent.find(controlEvent);
     
     if (m_mapHandleOfControlEvent.end() != Iter)
     {
+        int nFunID = Iter->second;
         m_mapHandleOfControlEvent.erase(Iter);
+        if (nFunID)
+        {
+            CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
+            if (pEngine != NULL && pEngine->getScriptType() != kScriptTypeNone)
+            {
+                pEngine->removeScriptHandler(nFunID);
+                CCLOG("Remove CCControl event handler: %d", nFunID);
+            }
+        }
+
     }
     
 }

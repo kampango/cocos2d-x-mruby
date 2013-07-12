@@ -72,9 +72,9 @@ public:
     /** Creates a CCMenuItem with no target/selector */
     static CCMenuItem* create();
     /** Creates a CCMenuItem with a target/selector */
-    static CCMenuItem* create(CCObject *rec, SEL_MenuHandler selector);
+    static CCMenuItem* create(CCObject *pSelectorTarget, SEL_MenuHandler selector);
     /** Initializes a CCMenuItem with a target/selector */
-    bool initWithTarget(CCObject *rec, SEL_MenuHandler selector);
+    bool initWithTarget(CCObject *pSelectorTarget, SEL_MenuHandler selector);
     /** Returns the outside box */
     CCRect rect();
     /** Activate the item */
@@ -98,7 +98,7 @@ public:
     virtual bool isOpacityModifyRGB(void) { return false;}
     
     /** set the target/selector of the menu item*/
-    void setTarget(CCObject *rec, SEL_MenuHandler selector);
+    void setTarget(CCObject *pSelectorTarget, SEL_MenuHandler selector);
 
 protected:
     CCObject*       m_pListener;

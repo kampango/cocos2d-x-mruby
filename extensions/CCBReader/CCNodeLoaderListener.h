@@ -6,6 +6,8 @@
 NS_CC_EXT_BEGIN
 
 class CCNodeLoaderListener {
+    protected:
+        CCNodeLoaderListener() {};
     public:
         virtual ~CCNodeLoaderListener() {};
 

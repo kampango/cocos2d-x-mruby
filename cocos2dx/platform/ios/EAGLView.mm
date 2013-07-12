@@ -405,6 +405,9 @@ static EAGLView *view = 0;
     
     int i = 0;
     for (UITouch *touch in touches) {
+        if (i >= IOS_MAX_TOUCHES_COUNT) {
+            break;
+        }
         ids[i] = (int)touch;
         xs[i] = [touch locationInView: [touch view]].x * view.contentScaleFactor;;
         ys[i] = [touch locationInView: [touch view]].y * view.contentScaleFactor;;

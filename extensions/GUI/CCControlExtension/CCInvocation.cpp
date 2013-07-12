@@ -40,9 +40,15 @@ CCInvocation* CCInvocation::create(CCObject* target, SEL_CCControlHandler action
 
 CCInvocation::CCInvocation(CCObject* target, SEL_CCControlHandler action, CCControlEvent controlEvent)
 {
+    CC_SAFE_RETAIN(target);
     m_target=target;
     m_action=action;
     m_controlEvent=controlEvent;
+}
+
+CCInvocation::~CCInvocation()
+{
+    CC_SAFE_RELEASE(m_target);
 }
 
 void CCInvocation::invoke(CCObject* sender)

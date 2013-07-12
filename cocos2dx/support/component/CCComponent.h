@@ -37,6 +37,7 @@ protected:
 public:
     virtual ~CCComponent(void);
     virtual bool init();
+    virtual bool initWithName(const char *name);
     virtual void onEnter();
     virtual void onExit();
     virtual void update(float delta);
@@ -44,6 +45,7 @@ public:
     virtual bool isEnabled() const;
     virtual void setEnabled(bool b);
     static CCComponent* create(void);
+    static CCComponent* createWithName(const char *name);
     
     const char* getName() const;
     

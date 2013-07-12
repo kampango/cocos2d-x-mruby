@@ -827,23 +827,20 @@ void CCBAnimationManager::debug()
     
 }
 
-void CCBAnimationManager::setAnimationCompletedCallback(CCObject *target, SEL_CallFunc callbackFunc) {
-    if (target)
-    {
-        target->retain();
-    }
-    
-    if (mTarget)
-    {
-        mTarget->release();
-    }
-    
+void CCBAnimationManager::setAnimationCompletedCallback(CCObject *target, SEL_CallFunc callbackFunc)
+{
+    CC_SAFE_RETAIN(target);
+    CC_SAFE_RELEASE(mTarget);
     mTarget = target;
     mAnimationCompleteCallbackFunc = callbackFunc;
 }
 
 void CCBAnimationManager::setCallFunc(CCCallFunc* callFunc, const std::string &callbackNamed) {
     mKeyframeCallFuncs->setObject((CCObject*)callFunc, callbackNamed);
+}
+
+void CCBAnimationManager::removeCallFunc(const std::string &callbackNamed) {
+    mKeyframeCallFuncs->removeObjectForKey(callbackNamed);
 }
 
 void CCBAnimationManager::sequenceCompleted()

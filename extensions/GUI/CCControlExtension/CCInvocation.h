@@ -57,6 +57,7 @@ class CCInvocation : public CCObject
 public:
     static CCInvocation* create(CCObject* target, SEL_CCControlHandler action, CCControlEvent controlEvent);
     CCInvocation(CCObject* target, SEL_CCControlHandler action, CCControlEvent controlEvent);
+    virtual ~CCInvocation(void);
 
     void invoke(CCObject* sender);
 };

@@ -244,6 +244,7 @@ CCNotificationObserver::CCNotificationObserver(CCObject *target,
 
 CCNotificationObserver::~CCNotificationObserver()
 {
+    removeHandler();
     CC_SAFE_DELETE_ARRAY(m_name);
 }
 
@@ -286,7 +287,24 @@ int CCNotificationObserver::getHandler()
 
 void CCNotificationObserver::setHandler(int var)
 {
+    if (m_nHandler != var) {
+        removeHandler();
+    }
     m_nHandler = var;
+}
+
+void CCNotificationObserver::removeHandler()
+{
+    if (m_nHandler)
+    {
+        CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
+        if (pEngine != NULL && pEngine->getScriptType() != kScriptTypeNone)
+        {
+            pEngine->removeScriptHandler(m_nHandler);
+            CCLOG("Remove CCNotificationObserver handler: %d", m_nHandler);
+        }
+        m_nHandler = 0;
+    }
 }
 
 NS_CC_END

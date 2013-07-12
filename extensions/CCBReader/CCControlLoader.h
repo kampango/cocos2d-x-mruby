@@ -10,6 +10,8 @@ NS_CC_EXT_BEGIN
 class CCBReader;
 
 class CCControlLoader : public CCNodeLoader {
+    protected:
+        CCControlLoader() {};
     public:
         virtual ~CCControlLoader() {};
 

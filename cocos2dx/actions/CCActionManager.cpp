@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include "support/data_support/ccCArray.h"
 #include "support/data_support/uthash.h"
 #include "cocoa/CCSet.h"
+#include "CCActionInstant.h"
 
 NS_CC_BEGIN
 //
@@ -67,6 +68,16 @@ CCActionManager::~CCActionManager(void)
 
 void CCActionManager::deleteHashElement(tHashElement *pElement)
 {
+    CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
+    if (pEngine != NULL && pEngine->getScriptType() != kScriptTypeNone)
+    {
+        for (unsigned i = 0; i < pElement->actions->num; ++i)
+        {
+            CCAction *pAction = (CCAction*)pElement->actions->arr[i];
+            pEngine->willRemoveAction(this, (CCAction*)pAction, pElement->target);
+        }
+    }
+
     ccArrayFree(pElement->actions);
     HASH_DEL(m_pTargets, pElement);
     pElement->target->release();
@@ -95,6 +106,12 @@ void CCActionManager::removeActionAtIndex(unsigned int uIndex, tHashElement *pEl
     {
         pElement->currentAction->retain();
         pElement->currentActionSalvaged = true;
+    }
+
+    CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
+    if (pEngine != NULL && pEngine->getScriptType() != kScriptTypeNone)
+    {
+        pEngine->willRemoveAction(this, (CCAction*)pAction, pElement->target);
     }
 
     ccArrayRemoveObjectAtIndex(pElement->actions, uIndex, true);
@@ -222,6 +239,16 @@ void CCActionManager::removeAllActionsFromTarget(CCObject *pTarget)
         {
             pElement->currentAction->retain();
             pElement->currentActionSalvaged = true;
+        }
+
+        CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
+        if (pEngine != NULL && pEngine->getScriptType() != kScriptTypeNone)
+        {
+            for (unsigned i = 0; i < pElement->actions->num; ++i)
+            {
+                CCAction *pAction = (CCAction*)pElement->actions->arr[i];
+                pEngine->willRemoveAction(this, (CCAction*)pAction, pElement->target);
+            }
         }
 
         ccArrayRemoveAllObjects(pElement->actions);
