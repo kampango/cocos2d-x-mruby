@@ -198,10 +198,15 @@ cc_mrb_value_retrieve(mrb_state *mrb, cocos2d::CCObject *obj)
 void
 cc_mrb_live_value_remove(mrb_state *mrb, cocos2d::CCObject *obj)
 {
+    _ccobj_id_robj_map.erase(obj->m_uID);
+}
+
+void
+cc_mrb_live_value_keep(mrb_state *mrb, cocos2d::CCObject *obj)
+{
     //cocos2d::CCLog("%s:%d:%u", __FUNCTION__, __LINE__, obj->m_uID);
     mrb_value live_obj = live_value_retrieve(mrb, obj);
     if (mrb_nil_p(live_obj)) {
-        /* it's not created by bridge. */
         return;
     }
 
@@ -217,7 +222,6 @@ cc_mrb_live_value_remove(mrb_state *mrb, cocos2d::CCObject *obj)
     cc_mrb_value_keep(mrb, obj, clone);
 
     mrb->gc_disabled = gc_disabled;
-    _ccobj_id_robj_map.erase(obj->m_uID);
 }
 
 void

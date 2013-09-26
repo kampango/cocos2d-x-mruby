@@ -228,6 +228,35 @@ CCMRubyEngine::CCMRubyEngine()
     start();
 }
 
+static void
+cc_mrb_paint_partial_white_hook(mrb_state *mrb, struct RData *d)
+{
+    if (!(d->tt == MRB_TT_DATA && d->data)) {
+        return;
+    }
+
+    struct RClass *c = cc_mrb_class_get(mrb, "Cocos2d::CCObject");
+    if (!c) {
+        return;
+    }
+
+    int is_kind = 0;
+    struct RClass *cl = d->c;
+    while (cl) {
+        if (cl == c || cl->mt == c->mt) {
+            is_kind = 1;
+            break;
+        }
+        cl = cl->super;
+    }
+
+    if (!is_kind) {
+        return;
+    }
+
+    cc_mrb_live_value_keep(mrb, static_cast< CCObject * >(d->data));
+}
+
 void CCMRubyEngine::start() {
     // for now just this
     //this->createGlobalContext();
@@ -235,6 +264,8 @@ void CCMRubyEngine::start() {
     if (!mrb_) {
         mrb_ = mrb_open();
         CCAssert(mrb_, "");
+
+        mrb_->paint_partial_white_hook = cc_mrb_paint_partial_white_hook;
 
         cc_mrb_helper_init(mrb_);
         mrb_value hash = mrb_gv_get(mrb_, mrb_intern_cstr(mrb_, "G_"));

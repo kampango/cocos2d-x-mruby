@@ -84,7 +84,7 @@ struct mrb_context {
   struct RProc **ensure;                  /* ensure handler stack */
   int esize;
 
-  uint8_t status;
+  enum mrb_fiber_state status;
   struct RFiber *fib;
 };
 
@@ -157,6 +157,8 @@ typedef struct mrb_state {
   struct RClass *eStandardError_class;
 
   void *ud; /* auxiliary data */
+
+  void (*paint_partial_white_hook)(struct mrb_state *mrb, struct RData *d);
 } mrb_state;
 
 typedef mrb_value (*mrb_func_t)(mrb_state *mrb, mrb_value);

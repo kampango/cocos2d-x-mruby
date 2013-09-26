@@ -35,6 +35,7 @@ mrb_value cc_mrb_live_value_find_by_id(mrb_state *mrb, unsigned int uID);
 void cc_mrb_value_register(mrb_state *mrb, cocos2d::CCObject *obj, mrb_value& value);
 mrb_value cc_mrb_value_retrieve(mrb_state *mrb, cocos2d::CCObject *obj);
 void cc_mrb_live_value_remove(mrb_state *mrb, cocos2d::CCObject *obj);
+void cc_mrb_live_value_keep(mrb_state *mrb, cocos2d::CCObject *obj);
 void cc_mrb_value_remove(mrb_state *mrb, cocos2d::CCObject *obj);
 void cc_mrb_value_keep(mrb_state *mrb, cocos2d::CCObject *obj, mrb_value& value);
 
