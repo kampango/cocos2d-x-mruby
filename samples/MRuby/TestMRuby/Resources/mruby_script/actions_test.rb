@@ -1026,10 +1026,6 @@ class ActionsTest < TestBase
   end
 
 
-  @sprite_tmp = nil
-  @issue1305_entry = nil
-  @issue1305_layer = nil
-
   def issue1305_log(sender)
     cclog("This message SHALL ONLY appear when the sprite is added to the scene, NOT BEFORE")
   end
@@ -1049,10 +1045,16 @@ class ActionsTest < TestBase
       @issue1305_entry = scheduler.scheduleScriptFunc(Proc.new {|dt| that.add_sprite(dt)}, 2, false)
     elsif tag == kCCNodeOnExit || tag == kCCNodeOnCleanup
       scheduler.unscheduleScriptEntry(@issue1305_entry)
+      @sprite_tmp.stopAllActions if @sprite_tmp
+      @sprite_tmp = nil
+      @issue1305_entry = nil
+      @issue1305_layer = nil
     end
   end
 
   def action_issue1305
+    @sprite_tmp = nil
+    @issue1305_entry = nil
     @issue1305_layer = CCLayer.create
     init_with_layer(@issue1305_layer)
 

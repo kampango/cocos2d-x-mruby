@@ -71,19 +71,19 @@ class IntervalTest < TestBase
 
     onNodeEvent = Proc.new {|event|
       if event == Cocos2d.kCCNodeOnEnter
-        scheduler = CCDirector.sharedDirector.getScheduler
+        scheduler = Cocos2d::CCDirector.sharedDirector.getScheduler
         schedulerEntry1 = scheduler.scheduleScriptFunc(step1, 0, false)
         schedulerEntry2 = scheduler.scheduleScriptFunc(step2, 0, false)
         schedulerEntry3 = scheduler.scheduleScriptFunc(step3, 1.0, false)
         schedulerEntry4 = scheduler.scheduleScriptFunc(step4, 2.0, false)
       elsif event == Cocos2d.kCCNodeOnExit
-        scheduler = CCDirector.sharedDirector.getScheduler
+        scheduler = Cocos2d::CCDirector.sharedDirector.getScheduler
         scheduler.unscheduleScriptEntry(schedulerEntry1)
         scheduler.unscheduleScriptEntry(schedulerEntry2)
         scheduler.unscheduleScriptEntry(schedulerEntry3)
         scheduler.unscheduleScriptEntry(schedulerEntry4)
-        if Cocos2d.CCDirector.sharedDirector().isPaused()
-          Cocos2d.CCDirector.sharedDirector().resume()
+        if Cocos2d::CCDirector.sharedDirector().isPaused()
+          Cocos2d::CCDirector.sharedDirector().resume()
         end
       end
     }
@@ -117,10 +117,11 @@ class IntervalTest < TestBase
     # pause button
     item1 = CCMenuItemFont.create("Pause")
     onPause = Proc.new {|tag, pSender|
-      if CCDirector.sharedDirector().isPaused()
-        CCDirector.sharedDirector().resume()
+      director = Cocos2d::CCDirector.sharedDirector()
+      if director.isPaused()
+        director.resume()
       else
-        CCDirector.sharedDirector().pause()
+        director.pause()
       end
     }
 
