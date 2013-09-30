@@ -1,251 +1,179 @@
+require "cocos2d"
 
-p "Hello mruby!"
-print "os:#{CC.os}\n"
-print "version:#{CC.version}\n"
+# see:
+# https://gist.github.com/ktaobo/6607786#file-cocos2dx-mruby-sample-rb
 
-require "hello2"
-p "result is #{Utils.myadd(3, 5)}"
-
-module A
+class TestScene
   include Cocos2d
   include CocosDenshion
 
-  @@visible_size = CCDirector.sharedDirector().getVisibleSize()
-  @@origin = CCDirector.sharedDirector().getVisibleOrigin()
+  def initialize
+    visibleSize = CCDirector.sharedDirector.getVisibleSize
+    origin = CCDirector.sharedDirector.getVisibleOrigin
 
-  class SpriteDog < CCSprite
-    include Cocos2d
-    @@visible_size = CCDirector.sharedDirector().getVisibleSize()
-    @@origin = CCDirector.sharedDirector().getVisibleOrigin()
+    # play background music, preload effect
 
-    def self.createWithSpriteFrame(frame)
-      sprite = self.new
-      sprite.initWithSpriteFrame(frame)
-      sprite
-    end
-    def is_paused
-      @is_paused
-    end
-    def is_paused=(v)
-      @is_paused = !!v
-    end
-        
-    def tick
-      return if @is_paused
-      pos = getPosition()
-      x = pos.x
-      if x > @@origin.x + @@visible_size.width
-        x = @@origin.x
-      else
-        x += 1
-      end
-      pos.x = x
-      setPosition(pos)
-    end
+    # uncomment below for the BlackBerry version
+    # bgMusicPath = CCFileUtils.sharedFileUtils.fullPathForFilename("background.ogg")
+    bgMusicPath = CCFileUtils.sharedFileUtils.fullPathForFilename("background.mp3")
+    SimpleAudioEngine.sharedEngine.playBackgroundMusic(bgMusicPath, true)
+    effectPath = CCFileUtils.sharedFileUtils.fullPathForFilename("effect1.wav")
+    SimpleAudioEngine.sharedEngine.preloadEffect(effectPath)
+
+    # run
+    sceneGame = CCScene.create
+    sceneGame.addChild(createLayerFarm(visibleSize, origin))
+    sceneGame.addChild(createLayerMenu(visibleSize, origin))
+
+    CCDirector.sharedDirector.runWithScene(sceneGame)
   end
 
+  def createLayerFarm(visibleSize, origin)
+    @layerFarm = CCLayer.create
 
-  def self.create_dog
-    f_w = 105
-    f_h = 95
-
-    texture_dog = CCTextureCache.sharedTextureCache().addImage("dog.png")
-    
-    pos = CCPoint.new
-    pos.x = 0
-    pos.y = 0
-    sz = CCSize.new
-    sz.width = f_w
-    sz.height = f_h
-    rect = CCRect.new
-    rect.origin = pos
-    rect.size = sz
-    frame0 = CCSpriteFrame.createWithTexture(texture_dog, rect)
-    pos.x = f_w
-    pos.y = 0
-    rect.origin = pos
-    sz.width = f_w
-    sz.height = f_h
-    rect.size = sz
-    frame1 = CCSpriteFrame.createWithTexture(texture_dog, rect)
-
-    #sprite_dog = CCSprite.createWithSpriteFrame(frame0)
-    sprite_dog = SpriteDog.createWithSpriteFrame(frame0)
-    sprite_dog.is_paused = false
-
-    pos.x = @@origin.x
-    pos.y = @@origin.y + @@visible_size.height / 4 * 3
-    sprite_dog.setPosition(pos)
-
-    anim_frames = CCArray.create()
-    anim_frames.addObject(frame0)
-    anim_frames.addObject(frame1)
-
-    animation = CCAnimation.createWithSpriteFrames(anim_frames, 0.5)
-    animate = CCAnimate.create(animation)
-    sprite_dog.runAction(CCRepeatForever.create(animate))
-
-    sched = CCDirector.sharedDirector().getScheduler()
-    sched.scheduleScriptFunc(Proc.new { sprite_dog.tick() }, 0, false)
-
-    sprite_dog
-  end
-
-  def self.create_layer_farm
-    layer_farm = CCLayer.create()
     bg = CCSprite.create("farm.jpg")
+    bg.setPosition(origin.x + visibleSize.width / 2 + 80, origin.y + visibleSize.height / 2)
+    @layerFarm.addChild(bg)
 
-    pos = CCPoint.new
-    pos.x = @@origin.x + @@visible_size.width / 2 + 80
-    pos.y = @@origin.y + @@visible_size.height / 2
-
-    bg.setPosition(pos)
-    layer_farm.addChild(bg)
-
-    i = 0
-    while (i <= 3)
-      j = 0
-      while (j <= 1)
-        sprite_land = CCSprite.create("land.png")
-        pos = CCPoint.new
-        pos.x = 200 + j * 180 - i % 2 * 90
-        pos.y = 10 + i * 95 / 2
-        sprite_land.setPosition(pos)
-        layer_farm.addChild(sprite_land)
-        j += 1
+    # add land sprite
+    4.times do |i|
+      2.times do |j|
+        spriteLand = CCSprite.create("land.png")
+        spriteLand.setPosition(200 + j * 180 - i % 2 * 90, 10 + i * 95 / 2)
+        @layerFarm.addChild(spriteLand)
       end
-      i += 1
     end
 
-    rect = CCRect.new
-    pos = CCPoint.new
-    pos.x = 0
-    pos.y = 0
-    rect.origin = pos
-    sz = CCSize.new
-    sz.width = 105
-    sz.height = 95
-    rect.size = sz
-
-    frame_crop = CCSpriteFrame.create("crop.png", rect)
-    i = 0
-    while (i <= 3)
-      j = 0
-      while (j <= 1)
-        sprite_crop = CCSprite.createWithSpriteFrame(frame_crop)
-        pos = CCPoint.new
-        pos.x = 10 + 200 + j * 180 - i % 2 * 90
-        pos.y = 30 + 10 + i * 95 / 2
-        sprite_crop.setPosition(pos)
-        layer_farm.addChild(sprite_crop)
-        j += 1
+    # add crop
+    frameCrop = CCSpriteFrame.create("crop.png", CCRectMake(0, 0, 105, 95))
+    4.times do |i|
+      2.times do |j|
+        spriteCrop = CCSprite.createWithSpriteFrame(frameCrop)
+        spriteCrop.setPosition(10 + 200 + j * 180 - i % 2 * 90, 30 + 10 + i * 95 / 2)
+        @layerFarm.addChild(spriteCrop)
       end
-      i += 1
     end
 
-    sprite_dog = create_dog()
-    layer_farm.addChild(sprite_dog)
+    # add moving dog
+    spriteDog = creatDog(visibleSize, origin)
+    @layerFarm.addChild(spriteDog)
 
-    touch_begin_point = nil
-    on_touch_began = ->(x, y) {
-      printf("on_touch_began: %0.2f, %0.2f\n", x, y)
-      touch_begin_point = Cocos2d::CCPoint.new
-      touch_begin_point.x = x
-      touch_begin_point.y = y
-      sprite_dog.is_paused = true
-      true
-    }
+    # handing touch events
+    @touchBeginPoint = nil
 
-    on_touch_moved = ->(x, y) {
-      printf("on_touch_moved: %0.2f, %0.2f\n", x, y)
-      unless touch_begin_point.nil?
-        c = layer_farm.getPosition()
-        pos = Cocos2d::CCPoint.new
-        pos.x = c.x + x - touch_begin_point.x
-        pos.y = c.y + y - touch_begin_point.y
-        layer_farm.setPosition(pos)
-        touch_begin_point.x = x
-        touch_begin_point.y = y
+    @layerFarm.registerScriptTouchHandler do |eventType, x, y|
+      if eventType == CCTOUCHBEGAN
+        onTouchBegan(x, y)
+      elsif eventType == CCTOUCHMOVED
+        onTouchMoved(x, y)
+      else  # ENDED or CANCELLED
+        onTouchEnded(x, y)
       end
-      true
-    }
+    end
+    @layerFarm.setTouchEnabled(true)
 
-    on_touch_ended = ->(x, y) {
-      printf("on_touch_ended: %0.2f, %0.2f\n", x, y)
-      touch_begin_point = nil
-      sprite_dog.is_paused = false
-      true
-    }
-
-    on_touch = ->(event_type, x, y) {
-      #printf("on_touch:#{event_type}\n")
-      case event_type
-      when 0
-        return on_touch_began.call(x, y)
-      when 1
-        return on_touch_moved.call(x, y)
-      when 2
-        return on_touch_ended.call(x, y)
-      end
-      false
-    }
-
-    layer_farm.registerScriptTouchHandler(on_touch, false, 0, false)
-    layer_farm.setTouchEnabled(true)
-    layer_farm
+    return @layerFarm
   end
 
-  def self.create_layer_menu
-    layer_menu = CCLayer.create()
-    menu_popup = nil
-    effect_id = 0
-    menu_callback_close_popup = Proc.new {|tag|
-      CocosDenshion::SimpleAudioEngine.sharedEngine().stopEffect(effect_id)
-      menu_popup.setVisible(false)
-    }
+  def creatDog(visibleSize, origin)
+    frameWidth = 105
+    frameHeight = 95
 
-    menu_callback_open_popup = Proc.new {|tag|
-      effect_path = Cocos2d::CCFileUtils.sharedFileUtils().fullPathForFilename("effect1.wav")
-      effect_id = CocosDenshion::SimpleAudioEngine.sharedEngine().playEffect(effect_path)
-      menu_popup.setVisible(true)
-    }
+    # create dog animate
+    textureDog = CCTextureCache.sharedTextureCache.addImage("dog.png")
+    rect = CCRectMake(0, 0, frameWidth, frameHeight)
+    frame0 = CCSpriteFrame.createWithTexture(textureDog, rect)
+    rect = CCRectMake(frameWidth, 0, frameWidth, frameHeight)
+    frame1 = CCSpriteFrame.createWithTexture(textureDog, rect)
 
-    pos = CCPoint.new
-    menu_popup_item = CCMenuItemImage.create("menu2.png", "menu2.png")
-    pos.x = 0
-    pos.y = 0
-    menu_popup_item.setPosition(pos)
-    menu_popup_item.registerScriptTapHandler(menu_callback_close_popup)
-    menu_popup = CCMenu.createWithItem(menu_popup_item)
-    pos.x = @@origin.x + @@visible_size.width / 2
-    pos.y = @@origin.y + @@visible_size.height / 2
-    menu_popup.setPosition(pos)
-    menu_popup.setVisible(false)
-    layer_menu.addChild(menu_popup)
+    spriteDog = CCSprite.createWithSpriteFrame(frame0)
+    @spriteDogIsPaused = false
+    spriteDog.setPosition(origin.x, origin.y + visibleSize.height / 4 * 3)
 
-    menu_tools_item = CCMenuItemImage.create("menu1.png", "menu1.png")
-    pos.x = 0
-    pos.y = 0
-    menu_tools_item.setPosition(pos)
-    menu_tools_item.registerScriptTapHandler(menu_callback_open_popup)
-    menu_tools = CCMenu.createWithItem(menu_tools_item)
+    animFrames = CCArray.create
 
-    item_sz = menu_tools_item.getContentSize()
-    pos.x = @@origin.x + item_sz.width / 2
-    pos.y = @@origin.y + item_sz.height / 2
-    menu_tools.setPosition(pos)
-    layer_menu.addChild(menu_tools)
+    animFrames.addObject(frame0)
+    animFrames.addObject(frame1)
 
-    layer_menu
+    animation = CCAnimation.createWithSpriteFrames(animFrames, 0.5)
+    animate = CCAnimate.create(animation)
+    spriteDog.runAction(CCRepeatForever.create(animate))
+
+    # moving dog at every frame
+    CCDirector.sharedDirector.getScheduler.scheduleScriptFunc(0, false) do
+      unless @spriteDogIsPaused
+        x = spriteDog.getPositionX
+        if x > origin.x + visibleSize.width
+          x = origin.x
+        else
+          x = x + 1
+        end
+
+        spriteDog.setPositionX(x)
+      end
+    end
+
+    return spriteDog
   end
 
-  bg_music_path = CCFileUtils.sharedFileUtils().fullPathForFilename("background.mp3")
-  SimpleAudioEngine.sharedEngine().playBackgroundMusic(bg_music_path, true)
-  effect_path = CCFileUtils.sharedFileUtils().fullPathForFilename("effect1.wav")
-  SimpleAudioEngine.sharedEngine().preloadEffect(effect_path)
+  def onTouchBegan(x, y)
+    puts("onTouchBegan: #{x}, #{y}")
+    @touchBeginPoint = {:x => x, :y => y}
+    @spriteDogIsPaused = true
+    # CCTOUCHBEGAN event must return true
+    return true
+  end
 
-  @scene_game = CCScene.create()
-  @scene_game.addChild(create_layer_farm())
-  @scene_game.addChild(create_layer_menu())
-  CCDirector::sharedDirector().runWithScene(@scene_game)
+  def onTouchMoved(x, y)
+    puts("onTouchMoved: #{x}, #{y}")
+    if @touchBeginPoint
+      pos = @layerFarm.getPosition
+      @layerFarm.setPosition(pos.x + x - @touchBeginPoint[:x], pos.y + y - @touchBeginPoint[:y])
+      @touchBeginPoint = {:x => x, :y => y}
+    end
+  end
+
+  def onTouchEnded(x, y)
+    puts("onTouchEnded: #{x}, #{y}")
+    @touchBeginPoint = nil
+    @spriteDogIsPaused = false
+  end
+
+  # create menu
+  def createLayerMenu(visibleSize, origin)
+    layerMenu = CCLayer.create
+
+    menuPopup = menuTools = effectID = nil
+
+    # add a popup menu
+    menuPopupItem = CCMenuItemImage.create("menu2.png", "menu2.png")
+    menuPopupItem.setPosition(0, 0)
+    menuPopupItem.registerScriptTapHandler do
+      # stop test sound effect
+      SimpleAudioEngine.sharedEngine.stopEffect(effectID)
+      menuPopup.setVisible(false)
+    end
+    menuPopup = CCMenu.createWithItem(menuPopupItem)
+    menuPopup.setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2)
+    menuPopup.setVisible(false)
+    layerMenu.addChild(menuPopup)
+
+    # add the left-bottom "tools" menu to invoke menuPopup
+    menuToolsItem = CCMenuItemImage.create("menu1.png", "menu1.png")
+    menuToolsItem.setPosition(0, 0)
+    menuToolsItem.registerScriptTapHandler do
+      # loop test sound effect
+      effectPath = CCFileUtils.sharedFileUtils.fullPathForFilename("effect1.wav")
+      effectID = SimpleAudioEngine.sharedEngine.playEffect(effectPath)
+      menuPopup.setVisible(true)
+    end
+    menuTools = CCMenu.createWithItem(menuToolsItem)
+    itemSize = menuToolsItem.getContentSize
+    menuTools.setPosition(origin.x + itemSize.width/2, origin.y + itemSize.height/2)
+    layerMenu.addChild(menuTools)
+
+    return layerMenu
+  end
 end
+
+TestScene.new

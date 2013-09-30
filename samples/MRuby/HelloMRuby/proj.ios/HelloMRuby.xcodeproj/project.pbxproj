@@ -21,6 +21,7 @@
 		44627E7A17E9C987008F2A99 /* mruby_helper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44627E7817E9C987008F2A99 /* mruby_helper.cpp */; };
 		44627E7D17E9C9B4008F2A99 /* CCMRubyCallbackWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44627E7B17E9C9B4008F2A99 /* CCMRubyCallbackWrapper.cpp */; };
 		44627E7F17E9CDB8008F2A99 /* hello2.rb in Resources */ = {isa = PBXBuildFile; fileRef = 44627E7E17E9CDB8008F2A99 /* hello2.rb */; };
+		44EA0D2417F941B4005A334C /* cocos2d.rb in Resources */ = {isa = PBXBuildFile; fileRef = 44EA0D2317F941B4005A334C /* cocos2d.rb */; };
 		464EA3A2175DC602004C192B /* CCBAnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 464EA2E6175DC601004C192B /* CCBAnimationManager.cpp */; };
 		464EA3A3175DC602004C192B /* CCBFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 464EA2E8175DC601004C192B /* CCBFileLoader.cpp */; };
 		464EA3A4175DC602004C192B /* CCBKeyframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 464EA2EA175DC601004C192B /* CCBKeyframe.cpp */; };
@@ -197,6 +198,7 @@
 		44627E7B17E9C9B4008F2A99 /* CCMRubyCallbackWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMRubyCallbackWrapper.cpp; sourceTree = "<group>"; };
 		44627E7C17E9C9B4008F2A99 /* CCMRubyCallbackWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMRubyCallbackWrapper.h; sourceTree = "<group>"; };
 		44627E7E17E9CDB8008F2A99 /* hello2.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = hello2.rb; sourceTree = "<group>"; };
+		44EA0D2317F941B4005A334C /* cocos2d.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = cocos2d.rb; sourceTree = "<group>"; };
 		464EA2E6175DC601004C192B /* CCBAnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBAnimationManager.cpp; sourceTree = "<group>"; };
 		464EA2E7175DC601004C192B /* CCBAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBAnimationManager.h; sourceTree = "<group>"; };
 		464EA2E8175DC601004C192B /* CCBFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBFileLoader.cpp; sourceTree = "<group>"; };
@@ -882,6 +884,7 @@
 		78947C5C14EBB9B000DBD5A6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				44EA0D2317F941B4005A334C /* cocos2d.rb */,
 				442EDB5A178FF61A007C175F /* hello.rb */,
 				44627E7E17E9CDB8008F2A99 /* hello2.rb */,
 				D4EF94DC15BD312100D803EB /* Icon-144.png */,
@@ -1002,6 +1005,7 @@
 				464EA464175DC6D5004C192B /* CMakeLists.txt in Resources */,
 				442EDB5B178FF61A007C175F /* hello.rb in Resources */,
 				44627E7F17E9CDB8008F2A99 /* hello2.rb in Resources */,
+				44EA0D2417F941B4005A334C /* cocos2d.rb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
